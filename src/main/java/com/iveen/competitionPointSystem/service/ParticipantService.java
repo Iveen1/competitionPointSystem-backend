@@ -1,6 +1,7 @@
 package com.iveen.competitionPointSystem.service;
 
 import com.iveen.competitionPointSystem.dto.ParticipantDto;
+import com.iveen.competitionPointSystem.payload.request.ParticipantUpdateRequest;
 import org.springframework.data.domain.Page;
 
 public interface ParticipantService {
@@ -8,7 +9,7 @@ public interface ParticipantService {
 
     ParticipantDto findById(Long id);
 
-    ParticipantDto update(Long id, ParticipantDto participantDto);
+    ParticipantDto update(Long id, ParticipantUpdateRequest participantUpdateRequest);
 
     void delete(Long id);
 

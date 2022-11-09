@@ -1,10 +1,13 @@
 package com.iveen.competitionPointSystem.controller;
 import com.iveen.competitionPointSystem.dto.PointDto;
+import com.iveen.competitionPointSystem.service.ParticipantService;
 import com.iveen.competitionPointSystem.service.PointService;
+import com.iveen.competitionPointSystem.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Validator;
 
 /**
  * @author Polyakov Anton
@@ -18,11 +21,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/points")
 public class PointController {
     private final PointService pointService;
+    private final TaskService taskService;
+    private final ParticipantService participantService;
+    private final Validator validator;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPoint(@RequestBody PointDto pointDto) {
-        pointService.create(pointDto);
-        return ResponseEntity.ok("success created point for " + pointDto.getParticipant().getLastName() + "" + pointDto.getParticipant().getFirstName());
+    public ResponseEntity<?> createPoint(@RequestParam Long taskId, @RequestParam Long participantId, @RequestParam Double coefficient) {
+
+        PointDto pointDto = PointDto.builder()
+                .task(taskService.findById(taskId))
+                .participant(participantService.findById(participantId))
+                .coefficient(coefficient)
+                .build();
+
+        if (validator.validate(pointDto).isEmpty()) {
+            PointDto point = pointService.create(pointDto);
+            return ResponseEntity.ok("success created point with ID " + point.getId() + " for " + pointDto.getParticipant().getLastName() + " " + pointDto.getParticipant().getFirstName());
+        } else {
+            return ResponseEntity.badRequest().body("Cant create point because of incorrect params");
+        }
     }
 
     @GetMapping("")
@@ -36,9 +53,18 @@ public class PointController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updatePoint(@PathVariable Long id, @RequestBody PointDto pointDto) {
-        pointService.update(id, pointDto);
-        return ResponseEntity.ok("success update point for " + pointDto.getParticipant().getLastName() + "" + pointDto.getParticipant().getFirstName());
+    public ResponseEntity<?> updatePoint(@PathVariable Long id, @RequestParam Long taskId, @RequestParam Long participantId, @RequestParam Double coefficient) {
+        PointDto pointDto = pointService.findById(id);
+        pointDto.setTask(taskService.findById(taskId));
+        pointDto.setParticipant(participantService.findById(participantId));
+        pointDto.setCoefficient(coefficient);
+
+        if (validator.validate(pointDto).isEmpty()) {
+            pointService.update(id, pointDto);
+            return ResponseEntity.ok("success modified point with ID " + id + " for " + pointDto.getParticipant().getLastName() + " " + pointDto.getParticipant().getFirstName());
+        } else {
+            return ResponseEntity.badRequest().body("Cant modify point because of incorrect params");
+        }
     }
 
     @DeleteMapping("/delete/{id}")

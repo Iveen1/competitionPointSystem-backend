@@ -1,12 +1,11 @@
 package com.iveen.competitionPointSystem.controller;
 import com.iveen.competitionPointSystem.dto.ParticipantDto;
+import com.iveen.competitionPointSystem.payload.request.ParticipantUpdateRequest;
 import com.iveen.competitionPointSystem.service.ParticipantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 
 /**
  * @author Polyakov Anton
@@ -23,8 +22,8 @@ public class ParticipantController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createParticipant(@RequestBody ParticipantDto participantDto) {
-        participantService.create(participantDto);
-        return ResponseEntity.ok("success create participant with name " + participantDto.getFirstName() + " " + participantDto.getLastName());
+        ParticipantDto participant = participantService.create(participantDto);
+        return ResponseEntity.ok("success create participant with name " + participantDto.getFirstName() + " " + participantDto.getLastName() + " and ID " + participant.getId());
     }
 
     @GetMapping("")
@@ -38,8 +37,8 @@ public class ParticipantController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updateParticipant(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
-        participantService.update(id, participantDto);
+    public ResponseEntity<?> updateParticipant(@PathVariable Long id, @RequestBody ParticipantUpdateRequest participantUpdateRequest) {
+        participantService.update(id, participantUpdateRequest);
         return ResponseEntity.ok("success update participant with id " + id);
     }
 

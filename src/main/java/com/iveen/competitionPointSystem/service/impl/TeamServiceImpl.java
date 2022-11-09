@@ -5,6 +5,7 @@ import com.iveen.competitionPointSystem.domain.mapper.TeamMapper;
 import com.iveen.competitionPointSystem.domain.repository.ParticipantRepository;
 import com.iveen.competitionPointSystem.domain.repository.TeamRepository;
 import com.iveen.competitionPointSystem.dto.TeamDto;
+import com.iveen.competitionPointSystem.payload.request.TeamUpdateRequest;
 import com.iveen.competitionPointSystem.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,8 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -45,9 +44,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamDto update(Long id, TeamDto teamDto) {
+    public TeamDto update(Long id, TeamUpdateRequest teamUpdateRequest) {
         Team team = teamRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no team with id " + id));
-        teamMapper.update(teamDto, team);
+        team.setName(teamUpdateRequest.getName());
         return teamMapper.toDto(teamRepository.save(team));
     }
 

@@ -1,9 +1,9 @@
 package com.iveen.competitionPointSystem.dto;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -14,6 +14,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class PointDto {
     private Long id;
 
@@ -27,4 +30,14 @@ public class PointDto {
 
     @NotNull
     private ParticipantDto participant;
+
+    @Override
+    public String toString() {
+        return "PointDto{" +
+                "id=" + id +
+                ", coefficient=" + coefficient +
+                ", task=" + task +
+                ", participant=" + participant +
+                '}';
+    }
 }

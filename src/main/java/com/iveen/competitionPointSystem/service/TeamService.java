@@ -1,13 +1,12 @@
 package com.iveen.competitionPointSystem.service;
 import com.iveen.competitionPointSystem.dto.TeamDto;
+import com.iveen.competitionPointSystem.payload.request.TeamUpdateRequest;
 import org.springframework.data.domain.Page;
-
-import java.sql.SQLException;
 
 public interface TeamService {
     TeamDto create(TeamDto teamDto);
 
-    TeamDto update(Long id, TeamDto teamDto);
+    TeamDto update(Long id, TeamUpdateRequest teamUpdateRequest);
 
     TeamDto findById(Long id);
 

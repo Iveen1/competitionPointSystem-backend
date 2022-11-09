@@ -3,6 +3,7 @@ import com.iveen.competitionPointSystem.domain.entity.Participant;
 import com.iveen.competitionPointSystem.domain.mapper.ParticipantMapper;
 import com.iveen.competitionPointSystem.domain.repository.ParticipantRepository;
 import com.iveen.competitionPointSystem.dto.ParticipantDto;
+import com.iveen.competitionPointSystem.payload.request.ParticipantUpdateRequest;
 import com.iveen.competitionPointSystem.service.ParticipantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -36,9 +36,10 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     @Override
-    public ParticipantDto update(Long id, ParticipantDto participantDto) {
+    public ParticipantDto update(Long id, ParticipantUpdateRequest participantUpdateRequest) {
         Participant participant = participantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no team with id " + id));
-        participantMapper.update(participantDto, participant);
+        participant.setFirstName(participantUpdateRequest.getFirstName());
+        participant.setLastName(participantUpdateRequest.getLastName());
         return participantMapper.toDto(participantRepository.save(participant));
     }
 

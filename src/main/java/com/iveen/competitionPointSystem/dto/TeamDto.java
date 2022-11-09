@@ -1,7 +1,7 @@
 package com.iveen.competitionPointSystem.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,6 +13,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class TeamDto {
     private Long id;
 

@@ -1,5 +1,6 @@
 package com.iveen.competitionPointSystem.controller;
 import com.iveen.competitionPointSystem.dto.TeamDto;
+import com.iveen.competitionPointSystem.payload.request.TeamUpdateRequest;
 import com.iveen.competitionPointSystem.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,8 +40,8 @@ public class TeamController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody TeamDto teamDto) {
-        teamService.update(id, teamDto);
+    public ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody TeamUpdateRequest teamUpdateRequest) {
+        teamService.update(id, teamUpdateRequest);
         return ResponseEntity.ok("success update team with id " + id);
     }
 

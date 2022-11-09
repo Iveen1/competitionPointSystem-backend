@@ -1,6 +1,6 @@
 package com.iveen.competitionPointSystem.domain.entity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 
 /**
@@ -12,7 +12,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "points")
+@Table(name = "points", uniqueConstraints={
+        @UniqueConstraint(columnNames={"task_id", "participant_id"})
+})
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +22,11 @@ public class Point {
 
     private Double coefficient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "task_id")
     private Task task;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "participant_id")
     private Participant participant;
 }

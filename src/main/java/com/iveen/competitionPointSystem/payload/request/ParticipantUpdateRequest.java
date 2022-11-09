@@ -1,29 +1,26 @@
-package com.iveen.competitionPointSystem.dto;
-import com.iveen.competitionPointSystem.domain.entity.Team;
-import lombok.*;
+package com.iveen.competitionPointSystem.payload.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * @author Polyakov Anton
- * @created 08.11.2022 19:14
+ * @created 09.11.2022 13:12
  * @project competitionPointSystem
  */
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ParticipantDto {
-    private Long id;
-
+public class ParticipantUpdateRequest {
     @NotNull
     private String firstName;
 
     @NotNull
     private String lastName;
-
-    @NotNull
-    private TeamDto team;
 }
