@@ -1,5 +1,4 @@
 package com.iveen.competitionPointSystem.domain.mapper;
-
 import com.iveen.competitionPointSystem.domain.entity.Participant;
 import com.iveen.competitionPointSystem.domain.entity.Team;
 import com.iveen.competitionPointSystem.dto.ParticipantDto;
@@ -12,17 +11,19 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { TeamMapper.class })
 public interface ParticipantMapper {
     // to dto
-    @Named("toDto")
-    @Mapping(target = "team", qualifiedByName = {"TeamMapper", "toDtoWithoutParticipants"})
+    @Named("participantToDto")
+    @Mapping(target = "team", qualifiedByName = {"teamToDtoWithoutParticipants"})
     ParticipantDto toDto(Participant entity);
-    @IterableMapping(qualifiedByName = "toDto")
+    @IterableMapping(qualifiedByName = "participantToDto")
     List<ParticipantDto> toDto (List<Participant> entities);
 
-    @Named("toDtoWithoutTeam")
+    @Named("participantToDtoWithoutTeam")
     @Mappings({
             @Mapping(target = "name", expression = "java(null)")
     })
     TeamDto toDtoWithoutTeam(Team team);
+    @IterableMapping(qualifiedByName = "participantToDtoWithoutTeam")
+    List<TeamDto> toDtoWithoutTeam(List<Team> teams);
 
     // to entity
     @Mapping(target = "id", ignore = true)

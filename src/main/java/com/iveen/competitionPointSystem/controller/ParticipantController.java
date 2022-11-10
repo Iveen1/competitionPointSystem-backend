@@ -7,14 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 /**
  * @author Polyakov Anton
  * @created 08.11.2022 21:47
  * @project competitionPointSystem
  */
 
-@RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/participants")
 public class ParticipantController {
@@ -23,7 +25,7 @@ public class ParticipantController {
     @PostMapping("/create")
     public ResponseEntity<?> createParticipant(@RequestBody ParticipantDto participantDto) {
         ParticipantDto participant = participantService.create(participantDto);
-        return ResponseEntity.ok("success create participant with name " + participantDto.getFirstName() + " " + participantDto.getLastName() + " and ID " + participant.getId());
+        return ResponseEntity.ok(participant);
     }
 
     @GetMapping("")
@@ -39,12 +41,12 @@ public class ParticipantController {
     @PostMapping("/modify/{id}")
     public ResponseEntity<?> updateParticipant(@PathVariable Long id, @RequestBody ParticipantUpdateRequest participantUpdateRequest) {
         participantService.update(id, participantUpdateRequest);
-        return ResponseEntity.ok("success update participant with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success update participant with id " + id));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteParticipant(@PathVariable Long id) {
         participantService.delete(id);
-        return ResponseEntity.ok("success remove participant with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success remove participant with id " + id));
     }
 }

@@ -1,7 +1,10 @@
 package com.iveen.competitionPointSystem.service.impl;
 
+import com.iveen.competitionPointSystem.domain.entity.Participant;
 import com.iveen.competitionPointSystem.domain.entity.Point;
+import com.iveen.competitionPointSystem.domain.mapper.ParticipantMapper;
 import com.iveen.competitionPointSystem.domain.mapper.PointMapper;
+import com.iveen.competitionPointSystem.domain.repository.ParticipantRepository;
 import com.iveen.competitionPointSystem.domain.repository.PointRepository;
 import com.iveen.competitionPointSystem.dto.PointDto;
 import com.iveen.competitionPointSystem.service.PointService;
@@ -13,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 
 /**
  * @author Polyakov Anton
@@ -25,7 +31,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
     private final PointRepository pointRepository;
+    private final ParticipantRepository participantRepository;
     private final PointMapper pointMapper;
+    private final ParticipantMapper participantMapper;
 
     @Override
     public PointDto create(PointDto pointDto) {
@@ -35,6 +43,16 @@ public class PointServiceImpl implements PointService {
     @Override
     public PointDto findById(Long id) {
         return pointMapper.toDto(pointRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no point with id " + id)));
+    }
+
+    @Override
+    public HashMap<String, Object> findByParticipantId(Long id) {
+        Participant participant = participantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no participant with id " + id));
+
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("points", pointMapper.toDto(pointRepository.findPointsByParticipant(participant)));
+        response.put("participant", participantMapper.toDto(participant));
+        return response;
     }
 
     @Override

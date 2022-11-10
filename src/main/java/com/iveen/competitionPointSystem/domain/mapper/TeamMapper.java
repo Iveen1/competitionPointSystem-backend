@@ -10,17 +10,18 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { ParticipantMapper.class })
 public interface TeamMapper {
     // to dto
-    @Named("toDto")
+    @Named("teamToDto")
     @Mapping(target = "participants", ignore = true)
     TeamDto toDto(Team entity);
-    @IterableMapping(qualifiedByName = "toDto")
+    @IterableMapping(qualifiedByName = "teamToDto")
     List<TeamDto> toDto (List<Team> entities);
 
-    @Named("toDtoWithoutParticipants")
+    @Named("teamToDtoWithoutParticipants")
     @Mappings({
             @Mapping(target = "participants", expression = "java(null)")
     })
     TeamDto toDtoWithoutParticipants(Team team);
+    @IterableMapping(qualifiedByName = "teamToDtoWithoutParticipants")
     List<TeamDto> toDtoWithoutParticipants(List<Team> teams);
 
     // to entity

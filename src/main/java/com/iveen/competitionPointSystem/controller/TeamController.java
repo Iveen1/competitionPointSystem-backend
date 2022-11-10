@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.sql.SQLException;
+import java.util.Collections;
 
 /**
  * @author Polyakov Anton
@@ -16,8 +14,8 @@ import java.sql.SQLException;
  * @project competitionPointSystem
  */
 
-@RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/teams")
 public class TeamController {
@@ -26,7 +24,7 @@ public class TeamController {
     @PostMapping("/create")
     public ResponseEntity<?> createTeam(@RequestBody TeamDto teamDto) {
         TeamDto team = teamService.create(teamDto);
-        return ResponseEntity.ok("success created team with id " + team.getId());
+        return ResponseEntity.ok(Collections.singletonMap("response", "success created team with id " + team.getId()));
     }
 
     @GetMapping("")
@@ -42,24 +40,24 @@ public class TeamController {
     @PostMapping("/modify/{id}")
     public ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody TeamUpdateRequest teamUpdateRequest) {
         teamService.update(id, teamUpdateRequest);
-        return ResponseEntity.ok("success update team with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success update team with id " + id));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable Long id) {
         teamService.delete(id);
-        return ResponseEntity.ok("success remove team with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success remove team with id " + id));
     }
 
     @PostMapping("/participant/add")
     public ResponseEntity<?> addParticipant(@RequestParam Long participantId, @RequestParam Long teamId) {
         teamService.addParticipant(participantId, teamId);
-        return ResponseEntity.ok("success added participant with id " + participantId + " to team with id " + teamId);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success added participant with id " + participantId + " to team with id " + teamId));
     }
 
-    @PostMapping("/participant/delete")
+    @DeleteMapping("/participant/delete")
     public ResponseEntity<?> deleteParticipant(@RequestParam Long participantId, @RequestParam Long teamId) {
         teamService.deleteParticipant(participantId, teamId);
-        return ResponseEntity.ok("success delete participant with id " + participantId + " to team with id " + teamId);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success delete participant with id " + participantId + " to team with id " + teamId));
     }
 }

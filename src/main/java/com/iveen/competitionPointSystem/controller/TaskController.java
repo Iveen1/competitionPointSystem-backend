@@ -6,14 +6,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 /**
  * @author Polyakov Anton
  * @created 08.11.2022 21:47
  * @project competitionPointSystem
  */
 
-@RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -22,7 +24,7 @@ public class TaskController {
     @PostMapping("/create")
     public ResponseEntity<?> createTask(@RequestBody TaskDto taskDto) {
         TaskDto task = taskService.create(taskDto);
-        return ResponseEntity.ok("success created task with id " + task.getId());
+        return ResponseEntity.ok(Collections.singletonMap("response", "success created task with id " + task.getId()));
     }
 
     @GetMapping("")
@@ -38,12 +40,12 @@ public class TaskController {
     @PostMapping("/modify/{id}")
     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
         taskService.update(id, taskDto);
-        return ResponseEntity.ok("success update task with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success update task with id " + id));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         taskService.delete(id);
-        return ResponseEntity.ok("success remove task with id " + id);
+        return ResponseEntity.ok(Collections.singletonMap("response", "success remove task with id " + id));
     }
 }
