@@ -25,7 +25,7 @@ public class ParticipantController {
     @PostMapping("/create")
     public ResponseEntity<?> createParticipant(@RequestBody ParticipantDto participantDto) {
         ParticipantDto participant = participantService.create(participantDto);
-        return ResponseEntity.ok(Collections.singletonMap("response", "success create participant with name " + participantDto.getFirstName() + " " + participantDto.getLastName() + " and ID " + participant.getId()));
+        return ResponseEntity.ok(participant);
     }
 
     @GetMapping("")
