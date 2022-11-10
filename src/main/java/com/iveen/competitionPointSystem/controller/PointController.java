@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -51,8 +52,8 @@ public class PointController {
     }
 
     @GetMapping("/participant/{id}")
-    public List<PointDto> getPointsByParticipant(@PathVariable Long id, @RequestParam(defaultValue = "30") int size) {
-        return pointService.findByParticipantId(id);
+    public ResponseEntity<?> getPointsByParticipant(@PathVariable Long id) {
+        return ResponseEntity.ok(pointService.findByParticipantId(id));
     }
 
     @GetMapping("/{id}")

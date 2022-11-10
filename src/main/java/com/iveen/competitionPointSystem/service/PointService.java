@@ -3,6 +3,7 @@ package com.iveen.competitionPointSystem.service;
 import com.iveen.competitionPointSystem.dto.PointDto;
 import org.springframework.data.domain.Page;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface PointService {
@@ -12,7 +13,7 @@ public interface PointService {
 
     PointDto findById(Long id);
 
-    List<PointDto> findByParticipantId(Long id);
+    HashMap<String, Object> findByParticipantId(Long id);
 
     void delete(Long id);
 
