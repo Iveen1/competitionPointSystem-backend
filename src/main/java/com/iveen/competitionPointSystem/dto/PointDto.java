@@ -1,4 +1,5 @@
 package com.iveen.competitionPointSystem.dto;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.validation.constraints.DecimalMax;
@@ -29,15 +30,6 @@ public class PointDto {
     private TaskDto task;
 
     @NotNull
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private ParticipantDto participant;
-
-    @Override
-    public String toString() {
-        return "PointDto{" +
-                "id=" + id +
-                ", coefficient=" + coefficient +
-                ", task=" + task +
-                ", participant=" + participant +
-                '}';
-    }
 }

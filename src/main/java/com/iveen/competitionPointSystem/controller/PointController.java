@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -47,6 +48,11 @@ public class PointController {
     @GetMapping("")
     public Page<PointDto> getPoint(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "30") int size) {
         return pointService.findAll(page, size);
+    }
+
+    @GetMapping("/participant/{id}")
+    public List<PointDto> getPointsByParticipant(@PathVariable Long id, @RequestParam(defaultValue = "30") int size) {
+        return pointService.findByParticipantId(id);
     }
 
     @GetMapping("/{id}")

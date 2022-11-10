@@ -1,18 +1,23 @@
 package com.iveen.competitionPointSystem.domain.mapper;
-
 import com.iveen.competitionPointSystem.domain.entity.Point;
 import com.iveen.competitionPointSystem.dto.PointDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { ParticipantMapper.class })
 public interface PointMapper {
     // to dto
+    @Named("pointToDto")
+    @Mapping(target = "participant", qualifiedByName = {"participantToDto"})
     PointDto toDto(Point entity);
-    List<PointDto> toDto (List<Point> entitites);
+
+    @Named("pointToDtoWithoutParticipant")
+    @Mapping(target = "participant", ignore = true)
+    PointDto toDtoWithoutParticipant(Point entity);
+
+    @IterableMapping(qualifiedByName = "pointToDtoWithoutParticipant")
+    List<PointDto> toDto(List<Point> entities);
 
     // to entity
     @Mapping(target = "id", ignore = true)

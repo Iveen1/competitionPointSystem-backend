@@ -2,6 +2,7 @@ package com.iveen.competitionPointSystem.service.impl;
 
 import com.iveen.competitionPointSystem.domain.entity.Point;
 import com.iveen.competitionPointSystem.domain.mapper.PointMapper;
+import com.iveen.competitionPointSystem.domain.repository.ParticipantRepository;
 import com.iveen.competitionPointSystem.domain.repository.PointRepository;
 import com.iveen.competitionPointSystem.dto.PointDto;
 import com.iveen.competitionPointSystem.service.PointService;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
     private final PointRepository pointRepository;
+    private final ParticipantRepository participantRepository;
     private final PointMapper pointMapper;
 
     @Override
@@ -35,6 +37,11 @@ public class PointServiceImpl implements PointService {
     @Override
     public PointDto findById(Long id) {
         return pointMapper.toDto(pointRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no point with id " + id)));
+    }
+
+    @Override
+    public List<PointDto> findByParticipantId(Long id) {
+        return pointMapper.toDto(pointRepository.findPointsByParticipant(participantRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no participant with id " + id))));
     }
 
     @Override
