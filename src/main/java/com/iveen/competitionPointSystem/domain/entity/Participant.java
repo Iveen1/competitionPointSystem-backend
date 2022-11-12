@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -34,4 +35,7 @@ public class Participant {
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
     private Team team;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
+    private List<Point> points;
 }
