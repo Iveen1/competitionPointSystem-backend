@@ -3,6 +3,7 @@ import com.iveen.competitionPointSystem.domain.entity.Team;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -26,4 +27,6 @@ public class ParticipantDto {
 
     @NotNull
     private TeamDto team;
+
+    private List<PointDto> points;
 }

@@ -8,10 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Validator;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -40,7 +38,7 @@ public class PointController {
 
         if (validator.validate(pointDto).isEmpty()) {
             PointDto point = pointService.create(pointDto);
-            return ResponseEntity.ok(Collections.singletonMap("response", "success created point with ID " + point.getId() + " for " + pointDto.getParticipant().getLastName() + " " + pointDto.getParticipant().getFirstName()));
+            return ResponseEntity.ok(Collections.singletonMap("response", point));
         } else {
             return ResponseEntity.badRequest().body(Collections.singletonMap("response", "Cant create point because of incorrect params"));
         }

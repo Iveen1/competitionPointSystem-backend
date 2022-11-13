@@ -8,11 +8,14 @@ import org.mapstruct.*;
 import java.util.List;
 
 @Named("ParticipantMapper")
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { TeamMapper.class })
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = { TeamMapper.class, PointMapper.class })
 public interface ParticipantMapper {
     // to dto
     @Named("participantToDto")
-    @Mapping(target = "team", qualifiedByName = {"teamToDtoWithoutParticipants"})
+    @Mappings({
+            @Mapping(target = "team", qualifiedByName = {"teamToDtoWithoutParticipants"}),
+            @Mapping(target = "points", qualifiedByName = {"pointToDtoWithoutParticipant"})
+    })
     ParticipantDto toDto(Participant entity);
     @IterableMapping(qualifiedByName = "participantToDto")
     List<ParticipantDto> toDto (List<Participant> entities);
