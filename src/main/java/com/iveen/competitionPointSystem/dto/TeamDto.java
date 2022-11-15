@@ -1,5 +1,6 @@
 package com.iveen.competitionPointSystem.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,6 @@ public class TeamDto {
     @NotNull
     private String name;
 
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ParticipantDto> participants;
 }

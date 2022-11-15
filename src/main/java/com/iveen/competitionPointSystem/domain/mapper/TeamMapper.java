@@ -4,6 +4,7 @@ import com.iveen.competitionPointSystem.domain.entity.Team;
 import com.iveen.competitionPointSystem.dto.TeamDto;
 import org.mapstruct.*;
 
+
 import java.util.List;
 
 @Named("TeamMapper")
@@ -11,7 +12,8 @@ import java.util.List;
 public interface TeamMapper {
     // to dto
     @Named("teamToDto")
-    @Mapping(target = "participants", ignore = true)
+//    @Mapping(target = "participants", ignore = true)
+    @Mapping(target = "participants", qualifiedByName = {"ParticipantMapper"})
     TeamDto toDto(Team entity);
     @IterableMapping(qualifiedByName = "teamToDto")
     List<TeamDto> toDto (List<Team> entities);

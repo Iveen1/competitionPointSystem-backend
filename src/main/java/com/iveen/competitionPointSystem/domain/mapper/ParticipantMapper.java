@@ -35,4 +35,5 @@ public interface ParticipantMapper {
 
     @Mapping(target = "id", ignore = true)
     void update(ParticipantDto dto, @MappingTarget Participant participant);
+
 }
