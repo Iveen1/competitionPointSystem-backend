@@ -3,6 +3,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -38,4 +40,8 @@ public class Participant {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
     private List<Point> points;
+
+    public Double getTotalPoints() {
+        return points.stream().map(x -> { return x.getCoefficient() * x.getTask().getMaxPoints(); }).mapToDouble(Double::valueOf).sum();
+    }
 }

@@ -9,9 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Polyakov Anton
@@ -52,8 +58,17 @@ public class ParticipantServiceImpl implements ParticipantService {
     public Page<ParticipantDto> findAll(int page, int size) {
         Page<Participant> entityPage = participantRepository.findAll(PageRequest.of(page, size));
 
+        List<Participant> modifiableList = new ArrayList<Participant>(entityPage.toList());
+
+        // Comparator.comparing(Participant::getTotalPoints)
+        Collections.sort(modifiableList, new Comparator<Participant>() {
+            @Override
+            public int compare(Participant employee1, Participant employee2) {
+                return employee2.getTotalPoints().compareTo(employee1.getTotalPoints());
+            }
+        });
         return new PageImpl<>(
-                participantMapper.toDto(entityPage.toList()),
+                participantMapper.toDto(modifiableList),
                 PageRequest.of(page, size),
                 entityPage.getTotalElements()
         );
