@@ -15,11 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.HashMap;
-import java.util.List;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 
 /**
  * @author Polyakov Anton
@@ -70,7 +66,6 @@ public class PointServiceImpl implements PointService {
     @Override
     public Page<PointDto> findAll(int page, int size) {
         Page<Point> entityPage = pointRepository.findAll(PageRequest.of(page, size));
-
         return new PageImpl<>(
                 pointMapper.toDto(entityPage.toList()),
                 PageRequest.of(page, size),
