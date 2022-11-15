@@ -15,6 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -58,9 +62,17 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Page<TeamDto> findAll(int page, int size) {
         Page<Team> entityPage = teamRepository.findAll(PageRequest.of(page, size));
+        List<Team> modifiableList = new ArrayList<Team>(entityPage.toList());
+
+        Collections.sort(modifiableList, new Comparator<Team>() {
+            @Override
+            public int compare(Team team1, Team team2) {
+                return team2.getTotalPoints().compareTo(team1.getTotalPoints());
+            }
+        });
 
         return new PageImpl<>(
-                teamMapper.toDto(entityPage.toList()),
+                teamMapper.toDto(modifiableList),
                 PageRequest.of(page, size),
                 entityPage.getTotalElements()
         );

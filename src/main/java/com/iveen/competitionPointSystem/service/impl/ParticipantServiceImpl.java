@@ -57,14 +57,13 @@ public class ParticipantServiceImpl implements ParticipantService {
     @Override
     public Page<ParticipantDto> findAll(int page, int size) {
         Page<Participant> entityPage = participantRepository.findAll(PageRequest.of(page, size));
-
         List<Participant> modifiableList = new ArrayList<Participant>(entityPage.toList());
 
         // Comparator.comparing(Participant::getTotalPoints)
         Collections.sort(modifiableList, new Comparator<Participant>() {
             @Override
-            public int compare(Participant employee1, Participant employee2) {
-                return employee2.getTotalPoints().compareTo(employee1.getTotalPoints());
+            public int compare(Participant participant1, Participant participant2) {
+                return participant2.getTotalPoints().compareTo(participant1.getTotalPoints());
             }
         });
         return new PageImpl<>(

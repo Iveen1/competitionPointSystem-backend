@@ -32,4 +32,13 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
     private List<Participant> participants;
+
+    public Double getTotalPoints() {
+        Double totalPoints = participants.stream().map(x -> { return x.getTotalPoints(); }).mapToDouble(Double::valueOf).sum();
+
+        if (totalPoints > 0) {
+            return totalPoints / participants.size();
+        }
+        return 0.0;
+    }
 }
