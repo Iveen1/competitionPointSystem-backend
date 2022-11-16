@@ -61,8 +61,10 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Page<TeamDto> findAll(int page, int size) {
-        Page<Team> entityPage = teamRepository.findAll(PageRequest.of(page, size));
-        List<Team> modifiableList = new ArrayList<Team>(entityPage.toList());
+        // за это оторвать мне руки, но пока не нашел иного выхода
+        List<Team> entityPage = teamRepository.findAll();
+        List<Team> modifiableList = new ArrayList<Team>(entityPage);
+        PageRequest pageReq = PageRequest.of(page, size);
 
         Collections.sort(modifiableList, new Comparator<Team>() {
             @Override
@@ -71,10 +73,13 @@ public class TeamServiceImpl implements TeamService {
             }
         });
 
+        final int start = (int) pageReq.getOffset();
+        final int end = Math.min((start + pageReq.getPageSize()), modifiableList.size());
+
         return new PageImpl<>(
-                teamMapper.toDto(modifiableList),
-                PageRequest.of(page, size),
-                entityPage.getTotalElements()
+                teamMapper.toDto(modifiableList).subList(start, end),
+                pageReq,
+                modifiableList.size()
         );
     }
 
