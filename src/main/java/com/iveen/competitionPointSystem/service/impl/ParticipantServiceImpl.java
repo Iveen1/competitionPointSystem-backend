@@ -56,20 +56,24 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     public Page<ParticipantDto> findAll(int page, int size) {
-        Page<Participant> entityPage = participantRepository.findAll(PageRequest.of(page, size));
-        List<Participant> modifiableList = new ArrayList<Participant>(entityPage.toList());
+        // за это оторвать мне руки, но пока не нашел иного выхода
+        List<Participant> entityPage = participantRepository.findAll();
+        List<Participant> modifiableList = new ArrayList<Participant>(entityPage);
+        PageRequest pageReq = PageRequest.of(page, size);
 
-        // Comparator.comparing(Participant::getTotalPoints)
         Collections.sort(modifiableList, new Comparator<Participant>() {
             @Override
             public int compare(Participant participant1, Participant participant2) {
                 return participant2.getTotalPoints().compareTo(participant1.getTotalPoints());
             }
         });
-        return new PageImpl<>(
-                participantMapper.toDto(modifiableList),
-                PageRequest.of(page, size),
-                entityPage.getTotalElements()
+
+        final int start = (int) pageReq.getOffset();
+        final int end = Math.min((start + pageReq.getPageSize()), modifiableList.size());
+        return new PageImpl<ParticipantDto>(
+                participantMapper.toDto(modifiableList).subList(start, end),
+                pageReq,
+                modifiableList.size()
         );
     }
 }
