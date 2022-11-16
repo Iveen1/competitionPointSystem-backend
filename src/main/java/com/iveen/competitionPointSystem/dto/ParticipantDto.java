@@ -29,7 +29,6 @@ public class ParticipantDto {
     @Size(min = 3)
     private String lastName;
 
-    @NotNull
     private TeamDto team;
 
     private List<PointDto> points;

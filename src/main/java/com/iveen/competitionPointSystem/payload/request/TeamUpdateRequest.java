@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,5 +20,6 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 public class TeamUpdateRequest {
     @NotNull
+    @NotBlank
     private String name;
 }

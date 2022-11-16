@@ -1,7 +1,5 @@
 package com.iveen.competitionPointSystem.domain.entity;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 
@@ -14,7 +12,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "tasks")
+@Table(name = "tasks", uniqueConstraints={
+        @UniqueConstraint(columnNames={"title"})
+})
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

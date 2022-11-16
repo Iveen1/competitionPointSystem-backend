@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class TeamDto {
     private Long id;
 
     @NotNull
+    @NotBlank
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
