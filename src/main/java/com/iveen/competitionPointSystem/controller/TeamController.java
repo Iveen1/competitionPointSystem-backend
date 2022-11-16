@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.Collections;
 
 /**
@@ -22,7 +24,7 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTeam(@RequestBody TeamDto teamDto) {
+    public ResponseEntity<?> createTeam(@RequestBody @Valid TeamDto teamDto) {
         TeamDto team = teamService.create(teamDto);
         return ResponseEntity.ok(Collections.singletonMap("response", "success created team with id " + team.getId()));
     }
@@ -38,7 +40,7 @@ public class TeamController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody TeamUpdateRequest teamUpdateRequest) {
+    public ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody @Valid TeamUpdateRequest teamUpdateRequest) {
         teamService.update(id, teamUpdateRequest);
         return ResponseEntity.ok(Collections.singletonMap("response", "success update team with id " + id));
     }

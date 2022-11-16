@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 /**
@@ -22,7 +23,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<?> createTask(@RequestBody @Valid TaskDto taskDto) {
         TaskDto task = taskService.create(taskDto);
         return ResponseEntity.ok(Collections.singletonMap("response", "success created task with id " + task.getId()));
     }
@@ -38,7 +39,7 @@ public class TaskController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+    public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
         taskService.update(id, taskDto);
         return ResponseEntity.ok(Collections.singletonMap("response", "success update task with id " + id));
     }

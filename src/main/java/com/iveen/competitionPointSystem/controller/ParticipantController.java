@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 /**
@@ -23,7 +24,7 @@ public class ParticipantController {
     private final ParticipantService participantService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createParticipant(@RequestBody ParticipantDto participantDto) {
+    public ResponseEntity<?> createParticipant(@RequestBody @Valid ParticipantDto participantDto) {
         ParticipantDto participant = participantService.create(participantDto);
         return ResponseEntity.ok(participant);
     }
@@ -39,7 +40,7 @@ public class ParticipantController {
     }
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<?> updateParticipant(@PathVariable Long id, @RequestBody ParticipantUpdateRequest participantUpdateRequest) {
+    public ResponseEntity<?> updateParticipant(@PathVariable Long id, @RequestBody @Valid ParticipantUpdateRequest participantUpdateRequest) {
         participantService.update(id, participantUpdateRequest);
         return ResponseEntity.ok(Collections.singletonMap("response", "success update participant with id " + id));
     }

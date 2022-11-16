@@ -2,7 +2,9 @@ package com.iveen.competitionPointSystem.dto;
 import com.iveen.competitionPointSystem.domain.entity.Team;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -19,10 +21,12 @@ import java.util.List;
 public class ParticipantDto {
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Size(min = 3)
     private String firstName;
 
-    @NotNull
+    @NotBlank
+    @Size(min = 3)
     private String lastName;
 
     @NotNull
